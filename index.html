@@ -7,24 +7,34 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    </style>
 </head>
-<body class="bg-gray-100 font-sans text-gray-800">
+<body class="bg-gray-100 text-gray-800">
 
     <nav class="bg-blue-900 p-4 text-white shadow-lg">
         <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold italic uppercase tracking-wider">Field Operations | Gestão de Erros</h1>
-            <span id="status" class="text-xs bg-yellow-500 px-2 py-1 rounded text-blue-900 font-bold">CONECTANDO...</span>
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-satellite-dish text-blue-400"></i>
+                <h1 class="text-lg font-bold italic uppercase tracking-wider">Field Operations | Gestão de Erros</h1>
+            </div>
+            <span id="status" class="text-[10px] bg-yellow-500 px-3 py-1 rounded-full text-blue-900 font-bold transition-all">CONECTANDO...</span>
         </div>
     </nav>
 
     <main class="container mx-auto p-4 md:p-6">
         
-        <div class="bg-white p-6 rounded-lg shadow-md mb-6 border-t-4 border-blue-600">
-            <h2 class="text-sm font-bold mb-4 text-gray-500 uppercase">Novo Registro de Campo</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-white p-6 rounded-xl shadow-sm mb-6 border-t-4 border-blue-600">
+            <h2 class="text-xs font-bold mb-4 text-gray-500 uppercase tracking-widest">Novo Registro de Campo</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
-                    <label class="block text-xs font-bold text-gray-400 uppercase">Técnico Responsável</label>
-                    <select id="tecnico" class="w-full mt-1 p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                    <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Técnico Responsável</label>
+                    <select id="tecnico" class="w-full p-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-gray-50 text-sm">
                         <option value="">-- Selecione o Nome --</option>
                         <option>ANDERSON SOARES DE ARRUDA</option>
                         <option>IVANILSON SILVA PAIXAO</option>
@@ -65,36 +75,41 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-gray-400 uppercase">Tipo de Erro</label>
-                    <select id="tipoErro" class="w-full mt-1 p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                    <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Tipo de Erro</label>
+                    <select id="tipoErro" class="w-full p-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-gray-50 text-sm">
                         <option>Contato que não chama</option>
                         <option>Contato errado (Outra pessoa)</option>
                         <option>Contato sem WhatsApp</option>
                         <option>Contato inexistente</option>
+                        <option>Contato do Connect diferente do Pipeelo</option>
                     </select>
                 </div>
                 <div class="flex items-end">
-                    <button id="btnRegistrar" onclick="adicionarErro()" class="w-full bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition duration-200 uppercase text-sm disabled:bg-gray-400">
-                        Registrar e Salvar
+                    <button id="btnRegistrar" onclick="adicionarErro()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-4 rounded-lg transition duration-200 uppercase text-sm flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Registrar e Salvar
                     </button>
                 </div>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="lg:col-span-2 bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
-                <div class="p-4 border-b bg-gray-50 flex justify-between items-center">
-                    <h2 class="font-bold text-gray-700 uppercase text-xs">Histórico Sincronizado</h2>
-                    <span id="totalContador" class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full">Total: 0</span>
+            <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="p-4 border-b bg-gray-50 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <h2 class="font-bold text-gray-700 uppercase text-xs tracking-tighter">Histórico Sincronizado</h2>
+                    <div class="relative w-full md:w-64">
+                        <input type="text" id="busca" onkeyup="filtrarTabela()" placeholder="Filtrar técnico..." class="w-full pl-9 pr-4 py-1.5 text-xs border rounded-full outline-none focus:ring-2 focus:ring-blue-400">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-gray-400 text-[10px]"></i>
+                    </div>
+                    <span id="totalContador" class="bg-blue-100 text-blue-800 text-[10px] font-black px-3 py-1 rounded-full uppercase">Total: 0</span>
                 </div>
-                <div class="overflow-y-auto max-h-[500px]">
-                    <table class="w-full text-left">
-                        <thead class="bg-gray-100 text-gray-600 text-[10px] uppercase">
+                <div class="overflow-y-auto max-h-[500px] custom-scrollbar">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-gray-50 text-gray-500 text-[10px] uppercase sticky top-0 shadow-sm">
                             <tr>
-                                <th class="p-4">Técnico</th>
-                                <th class="p-4">Erro</th>
-                                <th class="p-4">Data/Hora</th>
-                                <th class="p-4 text-center">Ações</th>
+                                <th class="p-4 font-bold">Técnico</th>
+                                <th class="p-4 font-bold">Erro Detectado</th>
+                                <th class="p-4 font-bold">Data/Hora</th>
+                                <th class="p-4 text-center font-bold">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="tabelaCorpo" class="text-sm divide-y divide-gray-100"></tbody>
@@ -102,10 +117,13 @@
                 </div>
             </div>
 
-            <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-                <h2 class="font-bold text-gray-700 mb-6 text-center uppercase text-sm">Resumo Geral</h2>
-                <div class="relative h-[300px]">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex flex-col">
+                <h2 class="font-bold text-gray-700 mb-6 text-center uppercase text-xs tracking-widest">Resumo Estatístico</h2>
+                <div class="relative flex-grow min-h-[300px]">
                     <canvas id="meuGrafico"></canvas>
+                </div>
+                <div class="mt-4 pt-4 border-t border-gray-100 text-[10px] text-gray-400 text-center">
+                    Dados atualizados em tempo real via Cloud
                 </div>
             </div>
         </div>
@@ -119,6 +137,25 @@
         let registrosAtuais = [];
         let grafico;
 
+        // --- FUNÇÕES DE INTERFACE ---
+
+        function setStatus(texto, classe) {
+            const el = document.getElementById('status');
+            el.innerText = texto;
+            el.className = `text-[10px] px-3 py-1 rounded-full text-white font-bold transition-all ${classe}`;
+        }
+
+        function filtrarTabela() {
+            const termo = document.getElementById('busca').value.toLowerCase();
+            const linhas = document.querySelectorAll('#tabelaCorpo tr');
+            linhas.forEach(linha => {
+                const nome = linha.cells[0].innerText.toLowerCase();
+                linha.style.display = nome.includes(termo) ? '' : 'none';
+            });
+        }
+
+        // --- FUNÇÕES DE DADOS ---
+
         async function carregarDados() {
             try {
                 const res = await fetch(`${API_URL}/latest`, {
@@ -127,41 +164,99 @@
                 const data = await res.json();
                 registrosAtuais = data.record.relatorio_erros || [];
                 atualizarInterface();
-                setStatus('ONLINE', 'bg-green-500');
+                setStatus('SINC. ONLINE', 'bg-green-500');
             } catch (err) {
-                setStatus('ERRO DE CONEXÃO', 'bg-red-500');
+                setStatus('ERRO DE NUVEM', 'bg-red-500');
             }
         }
 
-        function setStatus(texto, classe) {
-            const el = document.getElementById('status');
-            el.innerText = texto;
-            el.className = `text-xs px-2 py-1 rounded text-white font-bold ${classe}`;
+        async function salvarNoCloud(dados) {
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': MASTER_KEY
+                    },
+                    body: JSON.stringify({ relatorio_erros: dados })
+                });
+                return res.ok;
+            } catch (err) {
+                return false;
+            }
+        }
+
+        async function adicionarErro() {
+            const tecnico = document.getElementById('tecnico').value;
+            const erro = document.getElementById('tipoErro').value;
+            const btn = document.getElementById('btnRegistrar');
+
+            if (!tecnico) return alert("Selecione um técnico!");
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> SALVANDO...';
+            setStatus('ENVIANDO...', 'bg-yellow-500');
+
+            const novoRegistro = {
+                tecnico,
+                erro,
+                data: new Date().toLocaleDateString('pt-BR'),
+                hora: new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})
+            };
+
+            const novosDados = [...registrosAtuais, novoRegistro];
+            const sucesso = await salvarNoCloud(novosDados);
+
+            if (sucesso) {
+                registrosAtuais = novosDados;
+                document.getElementById('tecnico').value = "";
+                atualizarInterface();
+                setStatus('SINC. ONLINE', 'bg-green-500');
+            } else {
+                alert("Erro ao salvar dados.");
+                setStatus('ERRO', 'bg-red-500');
+            }
+
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Registrar e Salvar';
+        }
+
+        async function apagarRegistro(index) {
+            if (!confirm("Deseja realmente excluir este registro?")) return;
+
+            setStatus('EXCLUINDO...', 'bg-orange-500');
+            const novosDados = [...registrosAtuais];
+            novosDados.splice(index, 1);
+
+            if (await salvarNoCloud(novosDados)) {
+                registrosAtuais = novosDados;
+                atualizarInterface();
+                setStatus('SINC. ONLINE', 'bg-green-500');
+            }
         }
 
         function atualizarInterface() {
             const tabela = document.getElementById('tabelaCorpo');
             tabela.innerHTML = '';
             
-            let contagem = {
+            const contagem = {
                 "Contato que não chama": 0,
                 "Contato errado (Outra pessoa)": 0,
                 "Contato sem WhatsApp": 0,
-                "Contato inexistente": 0
+                "Contato inexistente": 0,
+                "Contato do Connect diferente do Pipeelo": 0
             };
 
-            // Inverte para mostrar os novos primeiro
             [...registrosAtuais].reverse().forEach((reg, index) => {
-                // O index real no array original (precisamos dele para apagar)
                 const realIndex = registrosAtuais.length - 1 - index;
-                
                 const row = tabela.insertRow();
+                row.className = "hover:bg-blue-50/30 transition-colors";
                 row.innerHTML = `
-                    <td class="p-4 font-semibold text-gray-700">${reg.tecnico}</td>
-                    <td class="p-4"><span class="text-[10px] font-bold px-2 py-1 rounded bg-blue-50 text-blue-700 uppercase">${reg.erro}</span></td>
-                    <td class="p-4 text-xs text-gray-400 font-mono">${reg.data} ${reg.hora}</td>
+                    <td class="p-4 font-semibold text-gray-700 text-xs">${reg.tecnico}</td>
+                    <td class="p-4"><span class="text-[9px] font-bold px-2 py-1 rounded bg-white border border-gray-200 text-gray-600 uppercase shadow-sm">${reg.erro}</span></td>
+                    <td class="p-4 text-[10px] text-gray-400 font-mono">${reg.data} ${reg.hora}</td>
                     <td class="p-4 text-center">
-                        <button onclick="apagarRegistro(${realIndex})" class="text-red-400 hover:text-red-600 transition">
+                        <button onclick="apagarRegistro(${realIndex})" class="text-gray-300 hover:text-red-500 transition-colors">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </td>
@@ -182,76 +277,36 @@
                     labels: Object.keys(contagem),
                     datasets: [{
                         data: Object.values(contagem),
-                        backgroundColor: ['#eab308', '#ef4444', '#22c55e', '#3f3f46'],
-                        borderWidth: 0
+                        backgroundColor: [
+                            '#eab308', // Amarelo
+                            '#ef4444', // Vermelho
+                            '#22c55e', // Verde
+                            '#64748b', // Cinza
+                            '#a855f7'  // Roxo (Novo Erro)
+                        ],
+                        borderWidth: 4,
+                        borderColor: '#ffffff',
+                        hoverOffset: 10
                     }]
                 },
-                options: { maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+                options: { 
+                    maintainAspectRatio: false, 
+                    cutout: '65%',
+                    plugins: { 
+                        legend: { 
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                boxWidth: 12,
+                                font: { size: 10, weight: '600' }
+                            }
+                        } 
+                    } 
+                }
             });
         }
 
-        async function adicionarErro() {
-            const tecnico = document.getElementById('tecnico').value;
-            const erro = document.getElementById('tipoErro').value;
-            if (!tecnico) return alert("Selecione um técnico!");
-
-            const btn = document.getElementById('btnRegistrar');
-            btn.disabled = true;
-
-            const novoRegistro = {
-                tecnico,
-                erro,
-                data: new Date().toLocaleDateString('pt-BR'),
-                hora: new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})
-            };
-
-            const novosDados = { relatorio_erros: [...registrosAtuais, novoRegistro] };
-            await salvarNoCloud(novosDados);
-            
-            registrosAtuais.push(novoRegistro);
-            atualizarInterface();
-            btn.disabled = false;
-        }
-
-        async function apagarRegistro(index) {
-            if (!confirm("Tem certeza que deseja excluir este registro?")) return;
-
-            // Remove o item do array local
-            const novosRegistros = [...registrosAtuais];
-            novosRegistros.splice(index, 1);
-
-            const novosDados = { relatorio_erros: novosRegistros };
-
-            setStatus('SALVANDO...', 'bg-yellow-500');
-            const sucesso = await salvarNoCloud(novosDados);
-            
-            if (sucesso) {
-                registrosAtuais = novosRegistros;
-                atualizarInterface();
-                setStatus('ONLINE', 'bg-green-500');
-            } else {
-                alert("Erro ao apagar registro.");
-                setStatus('ERRO', 'bg-red-500');
-            }
-        }
-
-        async function salvarNoCloud(objetoDados) {
-            try {
-                const res = await fetch(API_URL, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Master-Key': MASTER_KEY
-                    },
-                    body: JSON.stringify(objetoDados)
-                });
-                return res.ok;
-            } catch (err) {
-                console.error(err);
-                return false;
-            }
-        }
-
+        // Início
         carregarDados();
     </script>
 </body>
