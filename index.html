@@ -82,6 +82,7 @@
                         <option>Contato sem WhatsApp</option>
                         <option>Contato inexistente</option>
                         <option>Contato do Connect diferente do Pipeelo</option>
+                        <option>Contato não atende e não tem WhatsApp</option>
                     </select>
                 </div>
                 <div class="flex items-end">
@@ -137,8 +138,6 @@
         let registrosAtuais = [];
         let grafico;
 
-        // --- FUNÇÕES DE INTERFACE ---
-
         function setStatus(texto, classe) {
             const el = document.getElementById('status');
             el.innerText = texto;
@@ -153,8 +152,6 @@
                 linha.style.display = nome.includes(termo) ? '' : 'none';
             });
         }
-
-        // --- FUNÇÕES DE DADOS ---
 
         async function carregarDados() {
             try {
@@ -244,7 +241,8 @@
                 "Contato errado (Outra pessoa)": 0,
                 "Contato sem WhatsApp": 0,
                 "Contato inexistente": 0,
-                "Contato do Connect diferente do Pipeelo": 0
+                "Contato do Connect diferente do Pipeelo": 0,
+                "Contato não atende e não tem WhatsApp": 0
             };
 
             [...registrosAtuais].reverse().forEach((reg, index) => {
@@ -282,7 +280,8 @@
                             '#ef4444', // Vermelho
                             '#22c55e', // Verde
                             '#64748b', // Cinza
-                            '#a855f7'  // Roxo (Novo Erro)
+                            '#a855f7', // Roxo
+                            '#ec4899'  // Rosa (Novo Erro)
                         ],
                         borderWidth: 4,
                         borderColor: '#ffffff',
@@ -296,9 +295,9 @@
                         legend: { 
                             position: 'bottom',
                             labels: {
-                                padding: 20,
-                                boxWidth: 12,
-                                font: { size: 10, weight: '600' }
+                                padding: 15,
+                                boxWidth: 10,
+                                font: { size: 9, weight: '600' }
                             }
                         } 
                     } 
@@ -306,7 +305,6 @@
             });
         }
 
-        // Início
         carregarDados();
     </script>
 </body>
