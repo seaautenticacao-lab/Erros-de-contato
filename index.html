@@ -3,309 +3,334 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Cloud - Erros de Campo</title>
+    <title>Field Ops - Dashboard Profissional</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; }
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(226, 232, 240, 0.8); }
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 20px; border: 2px solid #f1f5f9; }
+        select, input { font-size: 16px !important; } /* Evita zoom automático no iOS */
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="text-slate-900">
 
-    <nav class="bg-blue-900 p-4 text-white shadow-lg">
+    <nav class="bg-slate-900 p-5 shadow-2xl border-b-4 border-blue-500 sticky top-0 z-50">
         <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <i class="fa-solid fa-satellite-dish text-blue-400"></i>
-                <h1 class="text-lg font-bold italic uppercase tracking-wider">Field Operations | Gestão de Erros</h1>
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-500 p-2 rounded-lg shadow-lg shadow-blue-500/30">
+                    <i class="fa-solid fa-microchip text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-800 text-white tracking-tight uppercase leading-none">Field Operations</h1>
+                    <span class="text-[10px] text-blue-400 font-bold uppercase tracking-[0.2em]">Gestão de Erros de Campo</span>
+                </div>
             </div>
-            <span id="status" class="text-[10px] bg-yellow-500 px-3 py-1 rounded-full text-blue-900 font-bold transition-all">CONECTANDO...</span>
+            <div id="syncStatus" class="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-full border border-slate-700 transition-all duration-500">
+                <div class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></div>
+                <span class="text-xs font-bold text-slate-300 uppercase">Iniciando...</span>
+            </div>
         </div>
     </nav>
 
-    <main class="container mx-auto p-4 md:p-6">
+    <main class="container mx-auto p-4 lg:p-8 space-y-8">
         
-        <div class="bg-white p-6 rounded-xl shadow-sm mb-6 border-t-4 border-blue-600">
-            <h2 class="text-xs font-bold mb-4 text-gray-500 uppercase tracking-widest">Novo Registro de Campo</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div>
-                    <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Técnico Responsável</label>
-                    <select id="tecnico" class="w-full p-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-gray-50 text-sm">
-                        <option value="">-- Selecione o Nome --</option>
-                        <option>ANDERSON SOARES DE ARRUDA</option>
-                        <option>IVANILSON SILVA PAIXAO</option>
-                        <option>ODAIR JOSE GARCIA FERREIRA</option>
-                        <option>LUIZ HENRIQUE FERREIRA MARTINS</option>
-                        <option>WELBER JOHN DA SILVA</option>
-                        <option>CLEYSON FRANK SILVA E SILVA</option>
-                        <option>MANOEL NAZARENO MARQUES DA LUZ</option>
-                        <option>MAURICIO COSTA DA SILVA</option>
-                        <option>WILLIAMES DOUGLAS NASCIMENTO DA SILVA</option>
-                        <option>ADAILTON FONSECA DA SILVA</option>
-                        <option>GABRIEL DE SOUSA PEREIRA</option>
-                        <option>GEOVENE MELO TORRES</option>
-                        <option>IAN JUNIOR ALMEIDA DA SILVA</option>
-                        <option>JADSON SANTANA DA COSTA</option>
-                        <option>JAILTON DA SILVA MARTINS</option>
-                        <option>JOAO BATISTA DE ARAUJO SARAIVA</option>
-                        <option>PEDRO HENRIQUE FERREIRA MARTINS</option>
-                        <option>RENATO BARATA NATIVIDADE</option>
-                        <option>RONALDO LIMA DE MELO</option>
-                        <option>SILVIO ROBERTO DA CONCEIÇÃO COSTA</option>
-                        <option>HERALDO DA SILVA LIMA</option>
-                        <option>MARCOS CELSO SANTOS COUTINHO</option>
-                        <option>LUCAS DE LIMA ANDRADE</option>
-                        <option>WESLEY PEREIRA DOS SANTOS</option>
-                        <option>DAVID FERNANDES DOS SANTOS ARAUJO</option>
-                        <option>DELIEL SANDERLAN OLIVEIRA FERREIRA</option>
-                        <option>FRANSUEL DIAS DAS MERCES</option>
-                        <option>JONATHAN GOMES DE OLIVEIRA</option>
-                        <option>WILKER GERALDO DE MIRANDA SOARES II</option>
-                        <option>WELINGTON PINHEIRO DE SOUSA</option>
-                        <option>IGOR TAVARES GOMES</option>
-                        <option>JORGE SEBASTIAO DA SILVA SANTOS</option>
-                        <option>JOSE HUMBERTO PEREIRA DOS REIS</option>
-                        <option>JOSÉ MARCOS CORDEIRO LOPES</option>
-                        <option>ESLON MORAES PEREIRA</option>
-                        <option>LUIS FELIPE TRINDADE SIQUEIRA</option>
-                    </select>
+        <section class="glass-card p-8 rounded-3xl shadow-xl shadow-slate-200/50">
+            <h2 class="text-sm font-800 text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+                <i class="fa-solid fa-plus-circle text-blue-500"></i> Registrar Nova Ocorrência
+            </h2>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
+                <div class="lg:col-span-5">
+                    <label class="block text-xs font-800 text-slate-700 uppercase mb-2 ml-1">Técnico Responsável</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-user-gear absolute left-4 top-4 text-slate-400"></i>
+                        <select id="tecnicoSelect" class="w-full pl-12 pr-4 py-3.5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all font-bold text-slate-700 appearance-none shadow-sm">
+                            <option value="">Selecione o Nome</option>
+                            <option>ADAILTON FONSECA DA SILVA</option>
+                            <option>ANDERSON SOARES DE ARRUDA</option>
+                            <option>CLEYSON FRANK SILVA E SILVA</option>
+                            <option>DAVID FERNANDES DOS SANTOS ARAUJO</option>
+                            <option>DELIEL SANDERLAN OLIVEIRA FERREIRA</option>
+                            <option>ESLON MORAES PEREIRA</option>
+                            <option>FRANSUEL DIAS DAS MERCES</option>
+                            <option>GABRIEL DE SOUSA PEREIRA</option>
+                            <option>GEOVENE MELO TORRES</option>
+                            <option>HERALDO DA SILVA LIMA</option>
+                            <option>IAN JUNIOR ALMEIDA DA SILVA</option>
+                            <option>IGOR TAVARES GOMES</option>
+                            <option>IVANILSON SILVA PAIXAO</option>
+                            <option>JADSON SANTANA DA COSTA</option>
+                            <option>JAILTON DA SILVA MARTINS</option>
+                            <option>JOAO BATISTA DE ARAUJO SARAIVA</option>
+                            <option>JONATHAN GOMES DE OLIVEIRA</option>
+                            <option>JORGE SEBASTIAO DA SILVA SANTOS</option>
+                            <option>JOSE HUMBERTO PEREIRA DOS REIS</option>
+                            <option>JOSÉ MARCOS CORDEIRO LOPES</option>
+                            <option>LUCAS DE LIMA ANDRADE</option>
+                            <option>LUIS FELIPE TRINDADE SIQUEIRA</option>
+                            <option>LUIZ HENRIQUE FERREIRA MARTINS</option>
+                            <option>MANOEL NAZARENO MARQUES DA LUZ</option>
+                            <option>MARCOS CELSO SANTOS COUTINHO</option>
+                            <option>MAURICIO COSTA DA SILVA</option>
+                            <option>ODAIR JOSE GARCIA FERREIRA</option>
+                            <option>PEDRO HENRIQUE FERREIRA MARTINS</option>
+                            <option>RENATO BARATA NATIVIDADE</option>
+                            <option>RONALDO LIMA DE MELO</option>
+                            <option>SILVIO ROBERTO DA CONCEIÇÃO COSTA</option>
+                            <option>WELBER JOHN DA SILVA</option>
+                            <option>WELINGTON PINHEIRO DE SOUSA</option>
+                            <option>WESLEY PEREIRA DOS SANTOS</option>
+                            <option>WILKER GERALDO DE MIRANDA SOARES II</option>
+                            <option>WILLIAMES DOUGLAS NASCIMENTO DA SILVA</option>
+                        </select>
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Tipo de Erro</label>
-                    <select id="tipoErro" class="w-full p-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-gray-50 text-sm">
-                        <option>Contato que não chama</option>
-                        <option>Contato errado (Outra pessoa)</option>
-                        <option>Contato sem WhatsApp</option>
-                        <option>Contato inexistente</option>
-                        <option>Contato do Connect diferente do Pipeelo</option>
-                        <option>Contato não atende e não tem WhatsApp</option>
-                    </select>
+                <div class="lg:col-span-4">
+                    <label class="block text-xs font-800 text-slate-700 uppercase mb-2 ml-1">Tipo de Erro Detectado</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-triangle-exclamation absolute left-4 top-4 text-slate-400"></i>
+                        <select id="tipoErroSelect" class="w-full pl-12 pr-4 py-3.5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all font-bold text-slate-700 appearance-none shadow-sm">
+                            <option>Contato que não chama</option>
+                            <option>Contato errado (Outra pessoa)</option>
+                            <option>Contato sem WhatsApp</option>
+                            <option>Contato inexistente</option>
+                            <option>Contato do Connect diferente do Pipeelo</option>
+                            <option>Contato não atende e não tem WhatsApp</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="flex items-end">
-                    <button id="btnRegistrar" onclick="adicionarErro()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-4 rounded-lg transition duration-200 uppercase text-sm flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-cloud-arrow-up"></i> Registrar e Salvar
+                <div class="lg:col-span-3">
+                    <button id="btnRegistrarErro" onclick="controller.handleSubmitErro()" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-800 py-4 px-6 rounded-2xl transition-all duration-300 shadow-lg shadow-blue-500/25 flex items-center justify-center gap-3 group active:scale-[0.98]">
+                        <i class="fa-solid fa-cloud-arrow-up text-lg group-hover:-translate-y-1 transition-transform"></i>
+                        SALVAR REGISTRO
                     </button>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div class="p-4 border-b bg-gray-50 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <h2 class="font-bold text-gray-700 uppercase text-xs tracking-tighter">Histórico Sincronizado</h2>
-                    <div class="relative w-full md:w-64">
-                        <input type="text" id="busca" onkeyup="filtrarTabela()" placeholder="Filtrar técnico..." class="w-full pl-9 pr-4 py-1.5 text-xs border rounded-full outline-none focus:ring-2 focus:ring-blue-400">
-                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-gray-400 text-[10px]"></i>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 glass-card rounded-3xl shadow-xl overflow-hidden flex flex-col">
+                <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex flex-wrap justify-between items-center gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-blue-100 text-blue-600 p-2 rounded-lg"><i class="fa-solid fa-list-check"></i></div>
+                        <h2 class="font-800 text-slate-800 text-lg tracking-tight">Histórico</h2>
                     </div>
-                    <span id="totalContador" class="bg-blue-100 text-blue-800 text-[10px] font-black px-3 py-1 rounded-full uppercase">Total: 0</span>
+                    <div class="flex items-center gap-3 flex-grow lg:flex-grow-0">
+                        <div class="relative flex-grow">
+                            <input type="text" id="filtroTecnico" onkeyup="view.filtrarTabela()" placeholder="Buscar técnico..." class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-4 focus:ring-blue-500/5 outline-none font-bold">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-300 text-xs"></i>
+                        </div>
+                        <span id="totalRegistrosContador" class="bg-blue-600 text-white text-xs font-900 px-4 py-2.5 rounded-xl shadow-md">Total: 0</span>
+                    </div>
                 </div>
-                <div class="overflow-y-auto max-h-[500px] custom-scrollbar">
+                <div class="overflow-y-auto max-h-[600px] custom-scrollbar">
                     <table class="w-full text-left border-collapse">
-                        <thead class="bg-gray-50 text-gray-500 text-[10px] uppercase sticky top-0 shadow-sm">
+                        <thead class="bg-slate-50 text-slate-500 text-[11px] font-800 uppercase sticky top-0 shadow-sm z-10">
                             <tr>
-                                <th class="p-4 font-bold">Técnico</th>
-                                <th class="p-4 font-bold">Erro Detectado</th>
-                                <th class="p-4 font-bold">Data/Hora</th>
-                                <th class="p-4 text-center font-bold">Ações</th>
+                                <th class="p-5 border-b border-slate-100">Técnico</th>
+                                <th class="p-5 border-b border-slate-100">Ocorrência</th>
+                                <th class="p-5 border-b border-slate-100">Data/Hora</th>
+                                <th class="p-5 border-b border-slate-100 text-center">Ações</th>
                             </tr>
                         </thead>
-                        <tbody id="tabelaCorpo" class="text-sm divide-y divide-gray-100"></tbody>
+                        <tbody id="tabelaHistoricoCorpo" class="text-sm divide-y divide-slate-100">
+                            </tbody>
                     </table>
                 </div>
             </div>
 
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex flex-col">
-                <h2 class="font-bold text-gray-700 mb-6 text-center uppercase text-xs tracking-widest">Resumo Estatístico</h2>
-                <div class="relative flex-grow min-h-[300px]">
-                    <canvas id="meuGrafico"></canvas>
+            <div class="glass-card p-8 rounded-3xl shadow-xl flex flex-col items-center">
+                <h2 class="font-800 text-slate-800 mb-8 text-center uppercase text-xs tracking-[0.2em] border-b-2 border-blue-500 pb-2">Distribuição de Erros</h2>
+                <div class="relative w-full aspect-square flex items-center justify-center">
+                    <canvas id="graficoErrosCanvas"></canvas>
                 </div>
-                <div class="mt-4 pt-4 border-t border-gray-100 text-[10px] text-gray-400 text-center">
-                    Dados atualizados em tempo real via Cloud
+                <div class="mt-8 space-y-4 w-full">
+                    <div class="bg-blue-50 p-4 rounded-2xl flex items-center gap-4 border border-blue-100">
+                        <i class="fa-solid fa-circle-info text-blue-500 text-lg"></i>
+                        <p class="text-[11px] text-blue-800 font-bold leading-relaxed">
+                            O gráfico acima reflete os dados sincronizados em tempo real com a base na nuvem.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
     <script>
-        const BIN_ID = '69baf6dbaa77b81da9f842bf';
-        const MASTER_KEY = '$2a$10$OCvV0EQunKhQKKTZBhUQ/.//aQrFwn6qeIzDL2qBCrX1jLMcKCDcy';
-        const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
-
-        let registrosAtuais = [];
-        let grafico;
-
-        function setStatus(texto, classe) {
-            const el = document.getElementById('status');
-            el.innerText = texto;
-            el.className = `text-[10px] px-3 py-1 rounded-full text-white font-bold transition-all ${classe}`;
-        }
-
-        function filtrarTabela() {
-            const termo = document.getElementById('busca').value.toLowerCase();
-            const linhas = document.querySelectorAll('#tabelaCorpo tr');
-            linhas.forEach(linha => {
-                const nome = linha.cells[0].innerText.toLowerCase();
-                linha.style.display = nome.includes(termo) ? '' : 'none';
-            });
-        }
-
-        async function carregarDados() {
-            try {
-                const res = await fetch(`${API_URL}/latest`, {
-                    headers: { 'X-Master-Key': MASTER_KEY }
-                });
-                const data = await res.json();
-                registrosAtuais = data.record.relatorio_erros || [];
-                atualizarInterface();
-                setStatus('SINC. ONLINE', 'bg-green-500');
-            } catch (err) {
-                setStatus('ERRO DE NUVEM', 'bg-red-500');
+        const CONFIG = {
+            API: {
+                BIN_ID: '69baf6dbaa77b81da9f842bf',
+                MASTER_KEY: '$2a$10$OCvV0EQunKhQKKTZBhUQ/.//aQrFwn6qeIzDL2qBCrX1jLMcKCDcy',
+                get URL() { return `https://api.jsonbin.io/v3/b/${this.BIN_ID}`; }
             }
-        }
+        };
 
-        async function salvarNoCloud(dados) {
-            try {
-                const res = await fetch(API_URL, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Master-Key': MASTER_KEY
+        const DOM = {
+            selectTecnico: document.getElementById('tecnicoSelect'),
+            selectTipoErro: document.getElementById('tipoErroSelect'),
+            btnRegistrarErro: document.getElementById('btnRegistrarErro'),
+            tabelaHistoricoCorpo: document.getElementById('tabelaHistoricoCorpo'),
+            filtroTecnico: document.getElementById('filtroTecnico'),
+            syncStatus: document.getElementById('syncStatus'),
+            totalRegistrosContador: document.getElementById('totalRegistrosContador'),
+            graficoErrosCanvas: document.getElementById('graficoErrosCanvas').getContext('2d')
+        };
+
+        let appState = {
+            relatoriosErros: [],
+            graficoInstance: null,
+            isLoading: false
+        };
+
+        const apiService = {
+            getHeaders: () => ({ 'Content-Type': 'application/json', 'X-Master-Key': CONFIG.API.MASTER_KEY }),
+            async carregarDadosDoCloud() {
+                const response = await fetch(`${CONFIG.API.URL}/latest?nocache=${Date.now()}`, { headers: this.getHeaders() });
+                if (!response.ok) throw new Error();
+                const data = await response.json();
+                return data.record.relatorio_erros || [];
+            },
+            async salvarDadosNoCloud(novosDados) {
+                const response = await fetch(CONFIG.API.URL, { method: 'PUT', headers: this.getHeaders(), body: JSON.stringify({ relatorio_erros: novosDados }) });
+                return response.ok;
+            }
+        };
+
+        const view = {
+            setStatus(message, type) {
+                const colors = {
+                    sync: { bg: 'bg-yellow-400', text: 'text-slate-300', dot: 'bg-yellow-400' },
+                    online: { bg: 'bg-green-500', text: 'text-green-400', dot: 'bg-green-500' },
+                    error: { bg: 'bg-red-500', text: 'text-red-400', dot: 'bg-red-500' }
+                };
+                const config = colors[type] || colors.sync;
+                DOM.syncStatus.innerHTML = `<div class="w-2 h-2 rounded-full ${config.dot} animate-pulse"></div><span class="text-xs font-900 uppercase ${config.text}">${message}</span>`;
+            },
+
+            setLoading(loading) {
+                DOM.btnRegistrarErro.disabled = loading;
+                DOM.btnRegistrarErro.innerHTML = loading ? 
+                    '<i class="fa-solid fa-spinner animate-spin"></i> SINCRONIZANDO...' : 
+                    '<i class="fa-solid fa-cloud-arrow-up text-lg group-hover:-translate-y-1 transition-transform"></i> SALVAR REGISTRO';
+            },
+
+            filtrarTabela() {
+                const termo = DOM.filtroTecnico.value.toLowerCase();
+                const linhas = DOM.tabelaHistoricoCorpo.querySelectorAll('tr');
+                linhas.forEach(linha => {
+                    linha.style.display = linha.innerText.toLowerCase().includes(termo) ? '' : 'none';
+                });
+            },
+
+            atualizarDashboard() {
+                DOM.tabelaHistoricoCorpo.innerHTML = '';
+                const contagem = {};
+
+                [...appState.relatoriosErros].reverse().forEach((reg, index) => {
+                    const realIndex = appState.relatoriosErros.length - 1 - index;
+                    const row = DOM.tabelaHistoricoCorpo.insertRow();
+                    row.className = "hover:bg-slate-50 transition-colors group";
+                    row.innerHTML = `
+                        <td class="p-5 font-800 text-slate-800 text-[13px] tracking-tight">${reg.tecnico}</td>
+                        <td class="p-5">
+                            <span class="text-[10px] font-900 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 border border-slate-200 uppercase tracking-tighter">
+                                ${reg.erro}
+                            </span>
+                        </td>
+                        <td class="p-5">
+                            <div class="flex flex-col">
+                                <span class="text-[12px] font-800 text-slate-600">${reg.data}</span>
+                                <span class="text-[10px] font-bold text-slate-400">${reg.hora}</span>
+                            </div>
+                        </td>
+                        <td class="p-5 text-center">
+                            <button onclick="controller.handleExcluirRegistro(${realIndex})" class="w-10 h-10 rounded-xl bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-sm">
+                                <i class="fa-solid fa-trash-can text-sm"></i>
+                            </button>
+                        </td>
+                    `;
+                    contagem[reg.erro] = (contagem[reg.erro] || 0) + 1;
+                });
+
+                DOM.totalRegistrosContador.innerText = `Total: ${appState.relatoriosErros.length}`;
+                this.renderizarGrafico(contagem);
+            },
+
+            renderizarGrafico(contagem) {
+                if (appState.graficoInstance) appState.graficoInstance.destroy();
+                const ctx = DOM.graficoErrosCanvas;
+                
+                appState.graficoInstance = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(contagem),
+                        datasets: [{
+                            data: Object.values(contagem),
+                            backgroundColor: ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'],
+                            borderWidth: 4,
+                            borderColor: '#ffffff',
+                            hoverOffset: 20
+                        }]
                     },
-                    body: JSON.stringify({ relatorio_erros: dados })
-                });
-                return res.ok;
-            } catch (err) {
-                return false;
-            }
-        }
-
-        async function adicionarErro() {
-            const tecnico = document.getElementById('tecnico').value;
-            const erro = document.getElementById('tipoErro').value;
-            const btn = document.getElementById('btnRegistrar');
-
-            if (!tecnico) return alert("Selecione um técnico!");
-
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> SALVANDO...';
-            setStatus('ENVIANDO...', 'bg-yellow-500');
-
-            const novoRegistro = {
-                tecnico,
-                erro,
-                data: new Date().toLocaleDateString('pt-BR'),
-                hora: new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})
-            };
-
-            const novosDados = [...registrosAtuais, novoRegistro];
-            const sucesso = await salvarNoCloud(novosDados);
-
-            if (sucesso) {
-                registrosAtuais = novosDados;
-                document.getElementById('tecnico').value = "";
-                atualizarInterface();
-                setStatus('SINC. ONLINE', 'bg-green-500');
-            } else {
-                alert("Erro ao salvar dados.");
-                setStatus('ERRO', 'bg-red-500');
-            }
-
-            btn.disabled = false;
-            btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Registrar e Salvar';
-        }
-
-        async function apagarRegistro(index) {
-            if (!confirm("Deseja realmente excluir este registro?")) return;
-
-            setStatus('EXCLUINDO...', 'bg-orange-500');
-            const novosDados = [...registrosAtuais];
-            novosDados.splice(index, 1);
-
-            if (await salvarNoCloud(novosDados)) {
-                registrosAtuais = novosDados;
-                atualizarInterface();
-                setStatus('SINC. ONLINE', 'bg-green-500');
-            }
-        }
-
-        function atualizarInterface() {
-            const tabela = document.getElementById('tabelaCorpo');
-            tabela.innerHTML = '';
-            
-            const contagem = {
-                "Contato que não chama": 0,
-                "Contato errado (Outra pessoa)": 0,
-                "Contato sem WhatsApp": 0,
-                "Contato inexistente": 0,
-                "Contato do Connect diferente do Pipeelo": 0,
-                "Contato não atende e não tem WhatsApp": 0
-            };
-
-            [...registrosAtuais].reverse().forEach((reg, index) => {
-                const realIndex = registrosAtuais.length - 1 - index;
-                const row = tabela.insertRow();
-                row.className = "hover:bg-blue-50/30 transition-colors";
-                row.innerHTML = `
-                    <td class="p-4 font-semibold text-gray-700 text-xs">${reg.tecnico}</td>
-                    <td class="p-4"><span class="text-[9px] font-bold px-2 py-1 rounded bg-white border border-gray-200 text-gray-600 uppercase shadow-sm">${reg.erro}</span></td>
-                    <td class="p-4 text-[10px] text-gray-400 font-mono">${reg.data} ${reg.hora}</td>
-                    <td class="p-4 text-center">
-                        <button onclick="apagarRegistro(${realIndex})" class="text-gray-300 hover:text-red-500 transition-colors">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </td>
-                `;
-                if(contagem[reg.erro] !== undefined) contagem[reg.erro]++;
-            });
-
-            document.getElementById('totalContador').innerText = `Total: ${registrosAtuais.length}`;
-            updateChart(contagem);
-        }
-
-        function updateChart(contagem) {
-            const ctx = document.getElementById('meuGrafico').getContext('2d');
-            if (grafico) grafico.destroy();
-            grafico = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: Object.keys(contagem),
-                    datasets: [{
-                        data: Object.values(contagem),
-                        backgroundColor: [
-                            '#eab308', // Amarelo
-                            '#ef4444', // Vermelho
-                            '#22c55e', // Verde
-                            '#64748b', // Cinza
-                            '#a855f7', // Roxo
-                            '#ec4899'  // Rosa (Novo Erro)
-                        ],
-                        borderWidth: 4,
-                        borderColor: '#ffffff',
-                        hoverOffset: 10
-                    }]
-                },
-                options: { 
-                    maintainAspectRatio: false, 
-                    cutout: '65%',
-                    plugins: { 
-                        legend: { 
-                            position: 'bottom',
-                            labels: {
-                                padding: 15,
-                                boxWidth: 10,
-                                font: { size: 9, weight: '600' }
+                    options: {
+                        maintainAspectRatio: false,
+                        cutout: '75%',
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { padding: 20, usePointStyle: true, font: { size: 10, weight: '700', family: 'Plus Jakarta Sans' } }
                             }
-                        } 
-                    } 
-                }
-            });
-        }
+                        }
+                    }
+                });
+            }
+        };
 
-        carregarDados();
+        const controller = {
+            async handleInicializacao() {
+                try {
+                    appState.relatoriosErros = await apiService.carregarDadosDoCloud();
+                    view.atualizarDashboard();
+                    view.setStatus('Sincronizado', 'online');
+                } catch {
+                    view.setStatus('Erro Cloud', 'error');
+                }
+            },
+            async handleSubmitErro() {
+                if (!DOM.selectTecnico.value) return alert("Selecione um técnico!");
+                view.setLoading(true);
+                const novo = { tecnico: DOM.selectTecnico.value, erro: DOM.selectTipoErro.value, data: new Date().toLocaleDateString('pt-BR'), hora: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) };
+                const novosDados = [...appState.relatoriosErros, novo];
+                try {
+                    if (await apiService.salvarDadosNoCloud(novosDados)) {
+                        appState.relatoriosErros = novosDados;
+                        view.atualizarDashboard();
+                        DOM.selectTecnico.value = "";
+                        view.setStatus('Sincronizado', 'online');
+                    }
+                } finally {
+                    view.setLoading(false);
+                }
+            },
+            async handleExcluirRegistro(index) {
+                if (!confirm("Excluir este registro permanentemente?")) return;
+                const novosDados = [...appState.relatoriosErros];
+                novosDados.splice(index, 1);
+                try {
+                    await apiService.salvarDadosNoCloud(novosDados);
+                    appState.relatoriosErros = novosDados;
+                    view.atualizarDashboard();
+                } catch {
+                    alert("Erro ao excluir!");
+                }
+            }
+        };
+
+        window.onload = controller.handleInicializacao;
     </script>
 </body>
 </html>
